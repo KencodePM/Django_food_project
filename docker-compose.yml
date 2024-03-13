@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    # docker build 的設定
+    build:
+      context: .
+    #port 對應
+    ports:
+      - "8000:8000"
+    #volumes 對應
+    volumes:
+      - ./app:/app
+    #指令
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+      
+  db:
+    # mysql image 版本
+    image: mysql:5.7
+    # 是否自動啟動
+    restart: always
+    # 環境變數設定
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: 12345678
+    ports:
+      - '3306:3306'
